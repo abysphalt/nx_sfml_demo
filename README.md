@@ -11,14 +11,6 @@ if you want to test on a PC, you need to have SFML installed.
 
 at the moment all the switch related stuff is disabled so further testing can be done on PC.
 
-run 
-
+to build the demo:
 
 make -f Makefile.pc 
-
-to build the demo.
-
-Tested on Debian.
-
-
-
