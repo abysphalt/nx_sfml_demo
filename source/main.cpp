@@ -27,7 +27,7 @@ extern int main()
 
 	// Create a texture to hold a graphic on the GPU
 	sf::Texture textureBackground;
-	textureBackground.loadFromFile("../romfs/background.png");
+	textureBackground.loadFromFile("romfs/background.png");
 	sf::Sprite spriteBackground;
 	spriteBackground.setTexture(textureBackground);
 	spriteBackground.setPosition(0, 0);
@@ -35,14 +35,14 @@ extern int main()
 
 	// Make a tree sprite
 	sf::Texture textureTree;
-	textureTree.loadFromFile("../romfs/tree.png");
+	textureTree.loadFromFile("romfs/tree.png");
 	sf::Sprite spriteTree;
 	spriteTree.setTexture(textureTree);
 	spriteTree.setPosition(810, 0);
 
 	// Prepare the bee
 	sf::Texture textureBee;
-	textureBee.loadFromFile("../romfs/bee.png");
+	textureBee.loadFromFile("romfs/bee.png");
 	sf::Sprite spriteBee;
 	spriteBee.setTexture(textureBee);
 	spriteBee.setPosition(0, 800);
@@ -57,7 +57,7 @@ extern int main()
 	sf::Texture textureCloud;
 
 	// Load 1 new texture
-	textureCloud.loadFromFile("../romfs/cloud.png");
+	textureCloud.loadFromFile("romfs/cloud.png");
 
 	// 3 New sprites withe the same texture
 	sf::Sprite spriteCloud1;
