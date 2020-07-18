@@ -59,7 +59,9 @@ extern int main()
 
 
 
-    sf::IntRect gnomeRect(0,(328.0f-37.8f),38,41);
+    bool gnomeActive = false;
+    float gnomeSpeed = 0.0f;
+    sf::IntRect gnomeRect(0,(328.0f-37.8f),36.5,41);
     
     sf::Texture gnomeTexture;
     gnomeTexture.loadFromFile("romfs/gnome.png");
@@ -177,11 +179,51 @@ extern int main()
 		    }
 		    else
 		    {
-		        gnomeRect.left += 37.8f;
+		        gnomeRect.left += 38.1f;
 		    }		    
 		    gnomeSprite.setTextureRect(gnomeRect);
 		    gnomeTime = gnomeClock.restart();
 		} 
+		
+
+		if (!gnomeActive)
+		{
+			srand((int)time(0) * 10);
+			gnomeSpeed = (rand() % 200) + 200;
+
+			gnomeSprite.setPosition(0, 200);
+			gnomeActive = true;
+		}
+		else
+		{
+            
+			gnomeSprite.setPosition(gnomeSprite.getPosition().x + 1, gnomeSprite.getPosition().y);
+
+			// Has the bee reached the right hand edge of the screen?
+			if (gnomeSprite.getPosition().x > 1900)
+			{
+				// Set it up ready to be a whole new bee next frame
+				gnomeActive = false;
+				//goLeft = true;
+				
+				
+				gnomeRect.width = -gnomeRect.width;
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 
 		// Setup the bee
@@ -386,7 +428,7 @@ extern int main()
 		// Drawraw the insect
 		window.draw(spriteBee);
 		
-		gnomeSprite.setScale(10, 10);
+		gnomeSprite.setScale(3, 3);
 		window.draw(gnomeSprite);
 
 		// Show everything we just drew
