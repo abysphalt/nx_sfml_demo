@@ -4,6 +4,9 @@
 #include <SFML/Audio.hpp>
 //#include <switch.h>
 #include <dirent.h>
+#include <stdint.h>
+#include <cstdio>
+#include <stdint.h>
 
 #include "cloud.cpp"
 
@@ -35,6 +38,46 @@ extern int main()
 	spriteBackground.setPosition(0, 0);
 
 
+
+
+
+//    //gnome image
+//    sf::Image gnomeImage;
+//	gnomeImage.loadFromFile("romfs/gnome.png");
+//	const sf::Uint8* gnomeImagePtr = gnomeImage.getPixelsPtr(); 
+//	sf::Texture gnomeTexture;
+//	gnomeTexture.create(378, 328);
+//	int pos = 0; // add 1 until 9 
+//	std::cout<<"hello";
+//	gnomeTexture.update(gnomeImagePtr, 38, 41, 0, 287);
+//	
+//	
+//	sf::Sprite gnomeSprite;
+//	gnomeSprite.setTexture(gnomeTexture);
+//	gnomeSprite.setPosition(400, 400);
+//	//gnomeTexture.update(gnomeImagePtr, 38, 41, (38 * pos), 287);
+
+
+
+    bool gnomeActive = false;
+    float gnomeSpeed = 0.0f;
+    sf::IntRect gnomeRect(0,(328.0f-37.8f),36.5,41);
+    
+    sf::Texture gnomeTexture;
+    gnomeTexture.loadFromFile("romfs/gnome.png");
+    
+    sf::Sprite gnomeSprite;
+    gnomeSprite.setTexture(gnomeTexture);
+    gnomeSprite.setTextureRect(gnomeRect);
+    gnomeSprite.setPosition(256,256);
+    //changing gnomeRect should change the image in sprite? 
+    
+
+    
+
+
+
+
 	// Make a tree sprite
 	sf::Texture textureTree;
 	textureTree.loadFromFile("romfs/tree.png");
@@ -45,6 +88,8 @@ extern int main()
 	// Prepare the bee
 	sf::Texture textureBee;
 	textureBee.loadFromFile("romfs/bee.png");
+	
+	
 	sf::Sprite spriteBee;
 	spriteBee.setTexture(textureBee);
 	spriteBee.setPosition(0, 800);
@@ -96,6 +141,8 @@ extern int main()
 
 	// Variables to control time itself
 	sf::Clock clock;
+	sf::Clock gnomeClock;
+	sf::Time gnomeTime = clock.restart();
 
 	while (window.isOpen())
 	{
@@ -109,10 +156,29 @@ extern int main()
 		while (window.pollEvent(event))
 		{
 		    if (sf::Joystick::isButtonPressed(0,0) || 
-		        sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || 
+		        sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) ||
 		        event.type == sf::Event::Closed)
 		    {
 			    window.close();
+		    }
+		    
+		    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) 
+		    {
+		        gnomeSprite.setPosition(gnomeSprite.getPosition().x - 10, gnomeSprite.getPosition().y);
+		        if (gnomeSprite.getPosition().x < 0) 
+		        {
+		            gnomeSprite.setPosition(1900, gnomeSprite.getPosition().y);
+		        }
+		        gnomeRect.width = -abs(gnomeRect.width);
+		    }
+		    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) 
+		    {
+		        gnomeSprite.setPosition(gnomeSprite.getPosition().x + 10, gnomeSprite.getPosition().y);
+		        if (gnomeSprite.getPosition().x > 1900) 
+		        {
+		            gnomeSprite.setPosition(0, gnomeSprite.getPosition().y);
+		        }
+		        gnomeRect.width = abs(gnomeRect.width);
 		    }
 	    }
 
@@ -123,6 +189,61 @@ extern int main()
 		*/
 		// Measure time
 		sf::Time dt = clock.restart();
+		
+		if (gnomeClock.getElapsedTime().asSeconds() > 0.15f) 
+		{
+		    if (gnomeRect.left >= (378 - 41)) 
+		    {
+		        gnomeRect.left = 0;
+		    }
+		    else
+		    {
+		        gnomeRect.left += 38.1f;
+		    }		    
+		    gnomeSprite.setTextureRect(gnomeRect);
+		    gnomeTime = gnomeClock.restart();
+		} 
+		
+
+//		if (!gnomeActive)
+//		{
+//			srand((int)time(0) * 10);
+//			gnomeSpeed = (rand() % 200) + 200;
+//
+//			gnomeSprite.setPosition(0, 200);
+//			gnomeActive = true;
+//		}
+//		else
+//		{
+//            
+//			gnomeSprite.setPosition(gnomeSprite.getPosition().x + 1, gnomeSprite.getPosition().y);
+//
+//			// Has the bee reached the right hand edge of the screen?
+//			if (gnomeSprite.getPosition().x > 1900)
+//			{
+//				// Set it up ready to be a whole new bee next frame
+//				gnomeActive = false;
+//				//goLeft = true;
+//				
+//				
+//				gnomeRect.width = -gnomeRect.width;
+//			}
+//		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 		// Setup the bee
 		if (!beeActive)
@@ -317,12 +438,17 @@ extern int main()
         window.draw(cloud1.getSprite());
         window.draw(cloud2.getSprite());
         window.draw(cloud3.getSprite());
+        
+        
 
 		// Draw the tree
 		window.draw(spriteTree);
 
 		// Drawraw the insect
 		window.draw(spriteBee);
+		
+		gnomeSprite.setScale(3, 3);
+		window.draw(gnomeSprite);
 
 		// Show everything we just drew
 		window.display();
