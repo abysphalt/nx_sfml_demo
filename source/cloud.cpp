@@ -1,10 +1,6 @@
 #include <sstream>
-#include <dirent.h>
-
 #include <iostream>
 #include <string>
-//#include <ctime.h>
-
 #include "cloud.h"
 
 //This is the constructor method
@@ -63,20 +59,3 @@ sf::Sprite Cloud::getSprite()
 {
     return m_Sprite;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
