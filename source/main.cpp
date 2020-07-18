@@ -5,6 +5,8 @@
 //#include <switch.h>
 #include <dirent.h>
 
+#include "cloud.cpp"
+
 // Define the switch resolution here we are using the switch's fullscreen
 const int WIDTH = 1920;
 const int HEIGTH = 1080;
@@ -52,6 +54,16 @@ extern int main()
 
 	// How fast can the bee fly
 	float beeSpeed = 0.0f;
+	
+	
+	
+	Cloud cloud1("romfs/cloud.png", 0, 150, 1);
+    Cloud cloud2("romfs/cloud.png", 0, 300, 2);
+    Cloud cloud3("romfs/cloud.png", 0, 450, 3);
+    
+
+	
+	
 
 	// make 3 cloud sprites from 1 texture
 	sf::Texture textureCloud;
@@ -96,11 +108,13 @@ extern int main()
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-		if (sf::Joystick::isButtonPressed(0,0) || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || event.type == sf::Event::Closed)
-		{
-			window.close();
-		}
-	}
+		    if (sf::Joystick::isButtonPressed(0,0) || 
+		        sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || 
+		        event.type == sf::Event::Closed)
+		    {
+			    window.close();
+		    }
+	    }
 
 		/*
 		****************************************
@@ -140,6 +154,56 @@ extern int main()
 		}
 
 		// Manage the clouds
+		if (!cloud1.isActive())
+		{
+		    cloud1.randomizeHeight();
+		    cloud1.randomizeSpeed();
+		    cloud1.setActive(true);
+		} 
+		else
+		{
+		    cloud1.move();
+		    if (cloud1.getXPos() > 1920)
+			{
+				// Set it up ready to be a whole new cloud next frame
+				cloud1.setActive(false);
+			}
+		}
+		if (!cloud2.isActive())
+		{
+		    cloud2.randomizeHeight();
+		    cloud2.randomizeSpeed();
+		    cloud2.setActive(true);
+		} 
+		else
+		{
+		    cloud2.move();
+		    if (cloud2.getXPos() > 1920)
+			{
+				// Set it up ready to be a whole new cloud next frame
+				cloud2.setActive(false);
+			};
+		}
+		if (!cloud3.isActive())
+		{
+		    cloud3.randomizeHeight();
+		    cloud3.randomizeSpeed();
+		    cloud3.setActive(true);
+		} 
+		else
+		{
+		    cloud3.move();
+		    if (cloud3.getXPos() > 1920)
+			{
+				// Set it up ready to be a whole new cloud next frame
+				cloud3.setActive(false);
+			}
+		}
+		
+		
+		
+		
+		
 		// Cloud 1
 		if (!cloud1Active)
 		{
@@ -246,9 +310,13 @@ extern int main()
 		window.draw(spriteBackground);
 
 		// Draw the clouds
-		window.draw(spriteCloud1);
-		window.draw(spriteCloud2);
-		window.draw(spriteCloud3);
+//		window.draw(spriteCloud1);
+//		window.draw(spriteCloud2);
+//		window.draw(spriteCloud3);
+
+        window.draw(cloud1.getSprite());
+        window.draw(cloud2.getSprite());
+        window.draw(cloud3.getSprite());
 
 		// Draw the tree
 		window.draw(spriteTree);
