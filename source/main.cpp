@@ -156,10 +156,29 @@ extern int main()
 		while (window.pollEvent(event))
 		{
 		    if (sf::Joystick::isButtonPressed(0,0) || 
-		        sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || 
+		        sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) ||
 		        event.type == sf::Event::Closed)
 		    {
 			    window.close();
+		    }
+		    
+		    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) 
+		    {
+		        gnomeSprite.setPosition(gnomeSprite.getPosition().x - 10, gnomeSprite.getPosition().y);
+		        if (gnomeSprite.getPosition().x < 0) 
+		        {
+		            gnomeSprite.setPosition(1900, gnomeSprite.getPosition().y);
+		        }
+		        gnomeRect.width = -abs(gnomeRect.width);
+		    }
+		    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) 
+		    {
+		        gnomeSprite.setPosition(gnomeSprite.getPosition().x + 10, gnomeSprite.getPosition().y);
+		        if (gnomeSprite.getPosition().x > 1900) 
+		        {
+		            gnomeSprite.setPosition(0, gnomeSprite.getPosition().y);
+		        }
+		        gnomeRect.width = abs(gnomeRect.width);
 		    }
 	    }
 
@@ -186,30 +205,30 @@ extern int main()
 		} 
 		
 
-		if (!gnomeActive)
-		{
-			srand((int)time(0) * 10);
-			gnomeSpeed = (rand() % 200) + 200;
-
-			gnomeSprite.setPosition(0, 200);
-			gnomeActive = true;
-		}
-		else
-		{
-            
-			gnomeSprite.setPosition(gnomeSprite.getPosition().x + 1, gnomeSprite.getPosition().y);
-
-			// Has the bee reached the right hand edge of the screen?
-			if (gnomeSprite.getPosition().x > 1900)
-			{
-				// Set it up ready to be a whole new bee next frame
-				gnomeActive = false;
-				//goLeft = true;
-				
-				
-				gnomeRect.width = -gnomeRect.width;
-			}
-		}
+//		if (!gnomeActive)
+//		{
+//			srand((int)time(0) * 10);
+//			gnomeSpeed = (rand() % 200) + 200;
+//
+//			gnomeSprite.setPosition(0, 200);
+//			gnomeActive = true;
+//		}
+//		else
+//		{
+//            
+//			gnomeSprite.setPosition(gnomeSprite.getPosition().x + 1, gnomeSprite.getPosition().y);
+//
+//			// Has the bee reached the right hand edge of the screen?
+//			if (gnomeSprite.getPosition().x > 1900)
+//			{
+//				// Set it up ready to be a whole new bee next frame
+//				gnomeActive = false;
+//				//goLeft = true;
+//				
+//				
+//				gnomeRect.width = -gnomeRect.width;
+//			}
+//		}
 		
 		
 		
